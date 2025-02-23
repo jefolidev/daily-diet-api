@@ -1,0 +1,23 @@
+{
+  "name": "daily-diet-api",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "server": "bun --watch ./src/server.ts",
+    "knex": "node --import tsx ./node_modules/.bin/knex"
+  },
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
+    "@types/bun": "latest",
+    "eslint": "^9.21.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "fastify": "^5.2.1",
+    "knex": "^3.1.0",
+    "sqlite3": "^5.1.7",
+    "tsx": "^4.19.3"
+  }
+}
