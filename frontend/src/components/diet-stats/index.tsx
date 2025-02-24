@@ -1,6 +1,7 @@
 import { X } from '@phosphor-icons/react';
 
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "../ui/drawer";
+import { Card } from './components/card';
 
 export function DietStats() {
   return (
@@ -26,24 +27,15 @@ export function DietStats() {
 
           </DrawerHeader>
           <div className="space-y-3">
-            <div className="w-full py-4 flex flex-col items-center gap-2 rounded-md bg-zinc-200/80">
-              <h1 className="font-bold text-4xl">22</h1>
-              <span>melhor sequência de pratos dentro da dieta</span>
+
+            <Card slug='melhor sequência de pratos dentro da dieta' value={22} />
+            <Card slug='refeições registradas' value={109} />
+
+            <div className='flex gap-2'>
+              <Card variant='positive' value={22} />
+              <Card variant='negative' value={10} />
             </div>
-            <div className="w-full py-4 flex flex-col items-center gap-2 rounded-md bg-zinc-200/80">
-              <h1 className="font-bold text-4xl">109</h1>
-              <span>refeições registradas</span>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-full py-4 flex flex-col items-center gap-2 rounded-md bg-green-light">
-                <h1 className="font-bold text-4xl">99</h1>
-                <span>refeições dentro da dieta</span>
-              </div>
-              <div className="w-full py-4 flex flex-col items-center gap-2 rounded-md bg-red-light">
-                <h1 className="font-bold text-4xl">109</h1>
-                <span>refeições fora da dieta</span>
-              </div>
-            </div>
+
           </div>
         </div>
       </DrawerContent>
