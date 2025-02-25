@@ -1,6 +1,7 @@
 import { DietStats } from "./components/diet-stats";
 import { Header } from "./components/header";
 import { MealsIndex } from "./components/meals";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog";
 
 export function App() {
 
@@ -11,14 +12,78 @@ export function App() {
         <DietStats />
         <div className="flex flex-col gap-2">
           <span className="text-xl">Refeições</span>
-          <button className="flex items-center bg-zinc-900 text-white font-medium justify-center py-4 rounded-[6px] text-xl cursor-pointer hover:bg-zinc-800 transition-colors duration-100">
-            + Nova refeição
-          </button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="flex items-center bg-zinc-900 text-white font-medium justify-center py-4 rounded-[6px] text-xl cursor-pointer hover:bg-zinc-800 transition-colors duration-100">
+                + Nova refeição
+              </button>
+            </DialogTrigger>
+            <DialogContent className="">
+              <DialogHeader>
+                <DialogTitle>Adicionar nova refeição</DialogTitle>
+                <DialogDescription>Insira as informações e crie a nova refeição</DialogDescription>
+              </DialogHeader>
+              <form className="max-w-[28.5rem] space-y-4">
+
+                <div className="flex flex-col gap-1">
+                  <label className="font-medium text-lg">Nome</label>
+                  <input className="border rounded-sm py-3 px-4" placeholder="Insira o nome da refeição" />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <label className="font-medium text-lg">Descrição</label>
+                  <textarea className="border rounded-sm px-3 py-3" rows={4} placeholder="Descreva o que veio na sua alimentação. Ex.:Pão integral, alface, tomate..." />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="flex flex-col gap-1">
+                    <label className="font-medium text-lg">Data</label>
+                    <input className="border rounded-sm py-3 px-4" placeholder="Insira o nome da refeição" />
+                  </div>
+
+                  <div className="flex flex-col gap-1">
+                    <label className="font-medium text-lg">Hora</label>
+                    <input className="border rounded-sm py-3 px-4" placeholder="Insira o nome da refeição" />
+                  </div>
+
+                </div>
+
+                <div className="flex flex-col gap-2">
+
+                  <label className="font-medium text-lg">Está dentro da dieta?</label>
+
+                  <div className="flex gap-4">
+
+                    <div className="relative w-full flex items-center justify-center py-4">
+                      <input type="radio" className="absolute appearance-none  bg-zinc-200/80 rounded-md size-full checked:bg-green-mid border-2 border-transparent checked:border-2 checked:border-green-dark z-0" name="diet-option" value="yes" />
+                      <div className="flex gap-3 items-center ">
+                        <div className="size-3 rounded-full relative bg-green-800" />
+                        <label className="relative font-bold text-md ">Sim</label>
+                      </div>
+                    </div>
+
+                    <div className="relative w-full flex items-center justify-center py-4">
+                      <input type="radio" className="absolute appearance-none  bg-zinc-200/80 rounded-md size-full checked:bg-red-mid border-2 border-transparent checked:border-2 checked:border-red-dark z-0" name="diet-option" value="no" />
+                      <div className="flex gap-3 items-center ">
+                        <div className="size-3 rounded-full relative bg-red-800" />
+                        <label className="relative font-bold text-md ">Não</label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <button className="flex items-center justify-center bg-zinc-900 w-full py-3 text-white font-medium rounded-md cursor-pointer hover:bg-zinc-800 transition-colors duration-100 mt-8 mb-2" type="submit">
+                  Cadastrar refeição
+                </button>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
       <MealsIndex />
-    </div>
+    </div >
   )
 }
 
