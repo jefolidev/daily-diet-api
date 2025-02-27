@@ -76,16 +76,16 @@ export function App() {
 
                   <div className="flex gap-4">
 
-                    <div className="relative w-full flex items-center justify-center py-4">
-                      <input type="radio" className="absolute appearance-none  bg-zinc-200/80 rounded-md size-full checked:bg-green-mid border-2 border-transparent checked:border-2 checked:border-green-dark z-0" value="yes"  {...register("isOnDiet")} />
+                    <div className="relative w-full flex items-center justify-center py-4 ">
+                      <input type="radio" className="hover:cursor-pointer absolute appearance-none  bg-zinc-200/80 rounded-md size-full checked:bg-green-mid border-2 border-transparent checked:border-2 checked:border-green-dark z-0" value="yes"  {...register("isOnDiet")} />
                       <div className="flex gap-3 items-center ">
                         <div className="size-3 rounded-full relative bg-green-800" />
                         <label className="relative font-bold text-md ">Sim</label>
                       </div>
                     </div>
 
-                    <div className="relative w-full flex items-center justify-center py-4">
-                      <input type="radio" className="absolute appearance-none  bg-zinc-200/80 rounded-md size-full checked:bg-red-mid border-2 border-transparent checked:border-2 checked:border-red-dark z-0" value="no"  {...register("isOnDiet")} />
+                    <div className="relative w-full flex items-center justify-center py-4 ">
+                      <input type="radio" className="hover:cursor-pointer absolute appearance-none  bg-zinc-200/80 rounded-md size-full checked:bg-red-mid border-2 border-transparent checked:border-2 checked:border-red-dark z-0" value="no"  {...register("isOnDiet")} />
                       <div className="flex gap-3 items-center ">
                         <div className="size-3 rounded-full relative bg-red-800" />
                         <label className="relative font-bold text-md ">Não</label>
