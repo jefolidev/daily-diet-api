@@ -1,13 +1,13 @@
 import fastify from 'fastify'
-import { knexDb } from './database'
+import { env } from '../env'
+import { usersRoutes } from './routes/users'
 
 const app = fastify()
 
-const PORT = 3333
+const { PORT } = env // 3333
 
-app.get("/hello", async () => {
-  const tables = await knexDb("sqlite_schema").select("*")
-  return tables
+app.register(usersRoutes, {
+  prefix: 'users'
 })
 
 app
