@@ -7,7 +7,11 @@ export async function mealsRoutes(app: FastifyInstance) {
     try {
       const meals = await getAllTheMeals()
 
-      return res.status(201).send(meals)
+      const formattedMeals = meals.map(meal => ({
+        ...meal, is_on_diet: Boolean(meal.is_on_diet)
+      }))
+
+      return res.status(201).send(formattedMeals)
     } catch (error) {
       console.error("An error ocurred while trying to GET a new user. See the error: ", error)
       throw new Error("An error ocurred while trying to GET a new user.")
@@ -20,8 +24,9 @@ export async function mealsRoutes(app: FastifyInstance) {
       const mealData = mealsSchema.parse(body)
 
       const meal = await createNewMeal(mealData, mealData.user_id)
+
       const newMeal = meal.map(mealItem => {
-        return { ...mealItem, is_on_diet: Boolean(mealItem.is_on_diet) }
+        return { ...mealItem, is_on_diet: mealData.is_on_diet }
       })
 
       return res.status(201).send(newMeal)

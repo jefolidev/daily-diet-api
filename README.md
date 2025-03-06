@@ -1,6 +1,6 @@
 - TODO 
 
-- [ ] Deve ser possível criar um usuário -
+- [x] Deve ser possível criar um usuário -
 
       - ID: UUID(), único, primary key;
       - Nome: string;
@@ -19,6 +19,7 @@
 - [ ] Deve ser possível registrar uma refeição feita, com as seguintes informações;
       - ID: UUID(), gerado automaticamente, único, pk;
       - Nome: string;
+      - Descrição: string
       - Data e Hora: DateTime();
       - Está na refeição: Boolean
         - Está: true;

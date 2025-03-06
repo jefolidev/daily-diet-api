@@ -4,7 +4,7 @@ import type { MealType } from "../schemas/meals-schema";
 export async function getAllTheMeals() {
   try {
     const querie = await selectAllMeals()
-    console.log("retorno do GET " + querie)
+    console.log("retorno do GET " + JSON.stringify(querie))
 
     return querie
   } catch (error) {
