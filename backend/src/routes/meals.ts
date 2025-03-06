@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { mealsSchema } from "../schemas/meals-schema";
-import { createNewMeal, getAllTheMeals } from "../services/meal-services";
+import { createNewMeal, getAllTheMeals, removeMealById } from "../services/meal-services";
 
 export async function mealsRoutes(app: FastifyInstance) {
   app.get('/', async (_, res) => {
@@ -19,7 +19,10 @@ export async function mealsRoutes(app: FastifyInstance) {
       const { body } = req
       const mealData = mealsSchema.parse(body)
 
-      const newMeal = await createNewMeal(mealData, mealData.user_id)
+      const meal = await createNewMeal(mealData, mealData.user_id)
+      const newMeal = meal.map(mealItem => {
+        return { ...mealItem, is_on_diet: Boolean(mealItem.is_on_diet) }
+      })
 
       return res.status(201).send(newMeal)
 
@@ -28,5 +31,25 @@ export async function mealsRoutes(app: FastifyInstance) {
       throw new Error("An error ocurred while trying to POST a new meal.")
 
     }
+  })
+
+  app.delete('/:id', async (req, res) => {
+
+    try {
+      const { id } = req.params as { id: string }
+      // const { id } = params as { id: string }
+
+      if (!id) {
+        return res.status(400).send("Meal ID is required")
+      }
+
+      await removeMealById(id)
+      return res.status(200).send(`Meal with id ${id} deleted successfully `)
+
+    } catch (error) {
+      console.error("An error ocurred while trying to DELETE the current meal. See the error: ", error)
+      throw new Error("An error ocurred while trying to DELETE the current meal.")
+    }
+
   })
 }
