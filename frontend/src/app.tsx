@@ -13,7 +13,7 @@ import { queryClient } from "./lib/react-query";
 export function App() {
   const { createNewMeal } = mealsServices
 
-  const { handleSubmit, register, formState: { errors } } = useForm<NewMeal>({
+  const { getValues, handleSubmit, register } = useForm<NewMeal>({
     resolver: zodResolver(newMealSchema)
   })
 
@@ -24,7 +24,8 @@ export function App() {
     }
   })
 
-  console.log(errors)
+  // console.log(errors)
+  console.log(getValues())
 
   function handleSubmitNewMeal(data: NewMeal) {
     // console.log("enviado")
@@ -112,7 +113,7 @@ export function App() {
                         value={0}
 
                         {...register("is_on_diet", {
-                          setValueAs: (v) => Boolean(Number(v)),
+                          setValueAs: (v) => Boolean(v),
 
                           valueAsNumber: true
                         })} />

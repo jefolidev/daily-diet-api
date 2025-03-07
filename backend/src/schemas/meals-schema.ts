@@ -6,7 +6,7 @@ export const mealsSchema = z.object({
   description: z.string(),
   date: z.coerce.date(),
   time: z.string(),
-  is_on_diet: z.boolean(),
+  is_on_diet: z.number(),
   user_id: z.string().uuid(),
   created_at: z.date().default(new Date())
 })

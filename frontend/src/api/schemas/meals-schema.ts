@@ -18,7 +18,7 @@ export const newMealSchema = z.object({
   description: z.string().nullable(),
   date: z.coerce.date(),
   time: z.string(),
-  is_on_diet: z.boolean()
+  is_on_diet: z.coerce.number()
 })
 
 export type NewMeal = z.infer<typeof newMealSchema>
