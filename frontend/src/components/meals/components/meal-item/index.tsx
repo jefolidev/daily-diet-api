@@ -40,7 +40,7 @@ export function MealItem({ mealId, mealHours, mealName, mealDescription, mealDat
           <Badge className="mt-3 text-sm gap-3 rounded-full py-2 px-5 bg-zinc-100 font-medium text-zinc-900"><div className={`size-2 rounded-full ${mealIsOnDiet ? "bg-green-dark" : "bg-red-dark"}`} />{isOnDietSlug}</Badge>
         </div>
         <SheetFooter>
-          <EditMealItem />
+          <EditMealItem mealId={mealId} />
           <RemoveMealItem mealId={mealId} />
         </SheetFooter>
       </SheetContent>

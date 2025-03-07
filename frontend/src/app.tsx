@@ -34,6 +34,10 @@ export function App() {
     // console.log(typeof data.isOnDiet)
   }
 
+  /*
+    ! COORRIGIR O PROBLEMA DAS DATAS NA HORA DE EDITAR OS ITENS
+  */
+
   return (
     <div className='max-w-[720px] mx-auto my-0 pb-8 flex flex-col space-y-10'>
       <Header />

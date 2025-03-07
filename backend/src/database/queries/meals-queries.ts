@@ -23,8 +23,10 @@ export async function insertMealIntoDB(mealData: MealType, userId: string) {
   return query
 }
 
-export async function putMealById(updatedMeal: Omit<MealType, "user_id">, mealId: string) {
-  const query = await knexDb("meals").where({ id: mealId }).update(updatedMeal)
+export async function putMealById(mealData: Omit<MealType, "user_id">, mealId: string) {
+  const updatedMeal = { ...mealData, date: formatDateToCreateNewMeal(mealData.date) }
+
+  const query = await knexDb("meals").where({ id: mealId }).update(updatedMeal).returning("*")
 
   return query
 }
