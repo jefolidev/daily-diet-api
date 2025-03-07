@@ -27,17 +27,22 @@ export function MealsIndex() {
           <h1 className="font-bold text-xl">{date.replace(/-/g, ".")}</h1>
 
           <div className="flex flex-col gap-4">
-            {meals.map(meal => (
-              <>
-                <MealItem
-                  mealName={meal.name}
-                  mealDescription={meal.description}
-                  mealDate={meal.date}
-                  mealHours={meal.time}
-                  mealIsOnDiet={Boolean(meal.is_on_diet)}
-                />
-              </>
-            ))}
+            {meals.map(meal => {
+              if (meal.id) {
+                return (
+                  <>
+                    <MealItem
+                      mealId={meal.id}
+                      mealName={meal.name}
+                      mealDescription={meal.description}
+                      mealDate={meal.date}
+                      mealHours={meal.time}
+                      mealIsOnDiet={Boolean(meal.is_on_diet)}
+                    />
+                  </>
+                )
+              }
+            })}
           </div>
         </div>
       ))}

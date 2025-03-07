@@ -4,6 +4,7 @@ import { EditMealItem } from "../edit-meal"
 import { RemoveMealItem } from "../remove-meal"
 
 interface MealItemProps {
+  mealId: string
   mealHours: string
   mealName: string
   mealDescription: string
@@ -11,7 +12,7 @@ interface MealItemProps {
   mealIsOnDiet: boolean
 }
 
-export function MealItem({ mealHours, mealName, mealDescription, mealDate, mealIsOnDiet }: MealItemProps) {
+export function MealItem({ mealId, mealHours, mealName, mealDescription, mealDate, mealIsOnDiet }: MealItemProps) {
   const isOnDietSlug = mealIsOnDiet ? "Dentro da dieta" : "Fora da dieta"
 
   return (
@@ -40,7 +41,7 @@ export function MealItem({ mealHours, mealName, mealDescription, mealDate, mealI
         </div>
         <SheetFooter>
           <EditMealItem />
-          <RemoveMealItem />
+          <RemoveMealItem mealId={mealId} />
         </SheetFooter>
       </SheetContent>
     </Sheet>

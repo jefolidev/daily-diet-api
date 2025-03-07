@@ -36,6 +36,19 @@ export const mealsServices = {
       console.error("Houve um erro ao criar uma nova refeição: " + error)
       throw new Error("A error has excepted at POST a new meal: " + error)
     }
+  },
 
+  removeMealById: async (mealId: string) => {
+    try {
+      const response = await api.delete(`/meals/${mealId}`)
+      const { data } = response
+
+      return data
+
+    } catch (error) {
+      console.error("Houve um erro ao remover a refeição: " + error)
+      throw new Error("A error has excepted at DELETE a meal: " + error)
+    }
   }
+
 }

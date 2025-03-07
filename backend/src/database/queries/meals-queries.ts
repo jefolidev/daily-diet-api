@@ -2,7 +2,7 @@ import { knexDb } from "../../database";
 import type { MealType } from "../../schemas/meals-schema";
 
 export async function selectAllMeals(): Promise<MealType[]> {
-  const query = await knexDb("meals").select("*")
+  const query = await knexDb("meals").select("*").orderBy("date", "desc")
   // console.log("query de todas as refeições: " + query)
 
   return query
