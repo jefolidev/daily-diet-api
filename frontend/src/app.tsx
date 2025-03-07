@@ -35,7 +35,7 @@ export function App() {
   }
 
   return (
-    <div className='max-w-[720px] mx-auto my-0 flex flex-col space-y-10'>
+    <div className='max-w-[720px] mx-auto my-0 pb-8 flex flex-col space-y-10'>
       <Header />
       <div className="space-y-8 flex flex-col px-6">
         <DietStats />

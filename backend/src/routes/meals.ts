@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { mealsSchema } from "../schemas/meals-schema";
-import { createNewMeal, getAllTheMeals, removeMealById } from "../services/meal-services";
+import { createNewMeal, getAllTheMeals, removeMealById, updateMealById } from "../services/meal-services";
 
 export async function mealsRoutes(app: FastifyInstance) {
   app.get('/', async (_, res) => {
@@ -36,12 +36,29 @@ export async function mealsRoutes(app: FastifyInstance) {
     } catch (error) {
       console.error("An error ocurred while trying to POST a new meal. See the error: ", error)
       throw new Error("An error ocurred while trying to POST a new meal.")
+    }
+  })
 
+  app.put('/:id', async (req, res) => {
+    try {
+      const { body } = req
+      const { id } = req.params as {
+        id: string
+      }
+
+      const parsedMeal = mealsSchema.parse(body)
+
+      const updatedMeal = await updateMealById(parsedMeal, id)
+
+      return res.status(201).send(updatedMeal)
+
+    } catch (error) {
+      console.error("An error ocurred while trying to PUT a meal. See the error: ", error)
+      throw new Error("An error ocurred while trying to PUT a meal.")
     }
   })
 
   app.delete('/:id', async (req, res) => {
-
     try {
       const { id } = req.params as { id: string }
       // const { id } = params as { id: string }

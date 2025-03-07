@@ -18,7 +18,7 @@ export function MealItem({ mealId, mealHours, mealName, mealDescription, mealDat
   return (
     <Sheet>
       <SheetTrigger>
-        <div className="w-full flex border justify-between items-center py-6 px-6 border-zinc-300 rounded-lg hover:border-zinc-400 hover:cursor-pointer">
+        <div className="flex border justify-between items-center py-6 px-6 border-zinc-300 rounded-lg hover:border-zinc-400 hover:cursor-pointer">
           <div className="flex gap-4 items-center">
             <p className="text-lg font-bold">{mealHours}</p>
             <div className="w-0.5 h-4 bg-zinc-300" />

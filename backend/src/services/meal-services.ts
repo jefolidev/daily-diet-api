@@ -1,4 +1,4 @@
-import { deleteMealById, insertMealIntoDB, selectAllMeals } from "../database/queries/meals-queries";
+import { deleteMealById, insertMealIntoDB, putMealById, selectAllMeals } from "../database/queries/meals-queries";
 import type { MealType } from "../schemas/meals-schema";
 
 export async function getAllTheMeals() {
@@ -28,6 +28,21 @@ export async function createNewMeal(mealData: MealType, userId: string) {
   } catch (error) {
     console.error("An error occurred while trying to create a meal. See the error below: ", error)
     throw new Error("An error occurred while trying to create a meal. ")
+  }
+}
+
+export async function updateMealById(updatedMeal: MealType, mealId: string) {
+  try {
+    if (!mealId) {
+      console.error("No meal finded, please, fix the meal id and try again!")
+      throw new Error("No meal finded, please, fix the meal id and try again!")
+    }
+
+    return await putMealById(updatedMeal, mealId)
+
+  } catch (error) {
+    console.error("An error occurred while trying to update a meal. See the error below: ", error)
+    throw new Error("An error occurred while trying to update a meal. ")
   }
 }
 

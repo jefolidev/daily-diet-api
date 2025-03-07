@@ -15,6 +15,12 @@ export async function insertMealIntoDB(mealData: MealType, userId: string) {
   return query
 }
 
+export async function putMealById(updatedMeal: MealType, mealId: string) {
+  const query = await knexDb("meals").where({ id: mealId }).update(updatedMeal)
+
+  return query
+}
+
 export async function deleteMealById(id: string) {
   // console.log("refeição recebida no BAnco de dados" + id)
   const query = await knexDb("meals").del().where({ id })
