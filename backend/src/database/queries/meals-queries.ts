@@ -1,21 +1,29 @@
 import { knexDb } from "../../database";
 import type { MealType } from "../../schemas/meals-schema";
+import { formatDateToCreateNewMeal } from "../../utils/format-date";
 
 export async function selectAllMeals(): Promise<MealType[]> {
-  const query = await knexDb("meals").select("*").orderBy("date", "desc")
-  // console.log("query de todas as refeições: " + query)
+  const query =
+    await knexDb("meals")
+      .select(knexDb.raw("DATE(date / 1000, 'unixepoch') as date"), "*")
+      .orderBy("date", "desc")
+
+  console.log("query de todas as refeições: " + JSON.stringify(query, null, 2))
+
+  // console.log(query)
 
   return query
 }
 
 export async function insertMealIntoDB(mealData: MealType, userId: string) {
-  const newMeal = { ...mealData, id: crypto.randomUUID(), is_on_diet: Boolean(mealData.is_on_diet), user_id: userId }
+
+  const newMeal = { ...mealData, id: crypto.randomUUID(), is_on_diet: Boolean(mealData.is_on_diet), user_id: userId, date: formatDateToCreateNewMeal(mealData.date) }
   const query = await knexDb("meals").insert(newMeal).returning("*")
 
   return query
 }
 
-export async function putMealById(updatedMeal: MealType, mealId: string) {
+export async function putMealById(updatedMeal: Omit<MealType, "user_id">, mealId: string) {
   const query = await knexDb("meals").where({ id: mealId }).update(updatedMeal)
 
   return query

@@ -7,9 +7,17 @@ export async function mealsRoutes(app: FastifyInstance) {
     try {
       const meals = await getAllTheMeals()
 
-      const formattedMeals = meals.map(meal => ({
-        ...meal, is_on_diet: Boolean(meal.is_on_diet), date: new Date(meal.date).toISOString().split("T")[0]
-      }))
+      const formattedMeals = meals.map(meal => {
+        const formattedDate = meal.date.split("T")[0]
+        // const formattedDateString = isNaN(formattedDate.getTime()) ? null : formattedDate.toISOString()
+
+        return {
+          ...meal,
+          is_on_diet: Boolean(meal.is_on_diet),
+          date: formattedDate,
+          // date: formattedDateString,
+        }
+      })
 
       return res.status(201).send(formattedMeals)
     } catch (error) {
@@ -46,7 +54,8 @@ export async function mealsRoutes(app: FastifyInstance) {
         id: string
       }
 
-      const parsedMeal = mealsSchema.parse(body)
+      const mealsSchemaWithouUserId = mealsSchema.omit({ user_id: true })
+      const parsedMeal = mealsSchemaWithouUserId.parse(body)
 
       const updatedMeal = await updateMealById(parsedMeal, id)
 

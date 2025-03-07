@@ -31,7 +31,7 @@ export async function createNewMeal(mealData: MealType, userId: string) {
   }
 }
 
-export async function updateMealById(updatedMeal: MealType, mealId: string) {
+export async function updateMealById(updatedMeal: Omit<MealType, "user_id">, mealId: string) {
   try {
     if (!mealId) {
       console.error("No meal finded, please, fix the meal id and try again!")
