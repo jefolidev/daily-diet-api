@@ -27,7 +27,7 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
 
       setMeals(getMealsFn)
     }
-    console.log("Dados recebidos:", getMealsFn);
+    // console.log("Dados recebidos:", getMealsFn);
   }, [getMealsFn])
 
 

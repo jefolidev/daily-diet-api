@@ -1,3 +1,4 @@
+import cors from '@fastify/cors'
 import fastify from 'fastify'
 import { env } from '../env'
 import { mealsRoutes } from './routes/meals'
@@ -7,6 +8,11 @@ const app = fastify()
 
 const { PORT } = env // 3333
 
+app.register(cors, {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"]
+})
+
 app.register(usersRoutes, {
   prefix: 'users'
 })
@@ -14,7 +20,6 @@ app.register(usersRoutes, {
 app.register(mealsRoutes, {
   prefix: 'meals'
 })
-
 
 app
   .listen({

@@ -4,7 +4,7 @@ import type { MealType } from "../schemas/meals-schema";
 export async function getAllTheMeals() {
   try {
     const querie = await selectAllMeals()
-    console.log("retorno do GET " + JSON.stringify(querie))
+    // console.log("retorno do GET " + JSON.stringify(querie))
 
     return querie
   } catch (error) {
@@ -13,14 +13,17 @@ export async function getAllTheMeals() {
   }
 }
 
-export async function createNewMeal(mealData: MealType, mealId: string) {
+export async function createNewMeal(mealData: MealType, userId: string) {
   try {
-    if (!mealId) {
+    if (!userId) {
       console.error("No user finded, please, fix the user id and try again!")
       throw new Error("No user finded, please, fix the user id and try again!")
     }
 
-    return await insertMealIntoDB(mealData, mealId)
+    console.log("Services do Back end: " + mealData + userId)
+
+
+    return await insertMealIntoDB(mealData, userId)
 
   } catch (error) {
     console.error("An error occurred while trying to create a meal. See the error below: ", error)

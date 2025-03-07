@@ -8,7 +8,7 @@ export async function mealsRoutes(app: FastifyInstance) {
       const meals = await getAllTheMeals()
 
       const formattedMeals = meals.map(meal => ({
-        ...meal, is_on_diet: Boolean(meal.is_on_diet)
+        ...meal, is_on_diet: Boolean(meal.is_on_diet), date: new Date(meal.date).toISOString().split("T")[0]
       }))
 
       return res.status(201).send(formattedMeals)
@@ -28,6 +28,8 @@ export async function mealsRoutes(app: FastifyInstance) {
       const newMeal = meal.map(mealItem => {
         return { ...mealItem, is_on_diet: mealData.is_on_diet }
       })
+
+      console.log("Resposta da rota do back" + body)
 
       return res.status(201).send(newMeal)
 

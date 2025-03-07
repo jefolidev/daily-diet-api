@@ -1,26 +1,47 @@
+import type { MealType } from "../../api/schemas/meals-schema";
 import { useMeals } from "../../hooks/use-meals";
 import { MealItem } from "./components/meal-item";
+
+type OrderedMeals = Record<string, MealType[]>
 
 export function MealsIndex() {
   const { meals } = useMeals()
 
-  console.log(meals)
+  const reducedMeals = meals.reduce((acc: OrderedMeals, meal) => {
+    if (!acc[meal.date.toString()]) {
+      acc[meal.date.toString()] = []
+    }
+
+    acc[meal.date.toString()].push(meal)
+
+    return acc
+  }, {} as OrderedMeals)
+
+  const orderedMeals = Object.entries(reducedMeals)
+
   return (
     <div className="px-6 flex flex-col gap-4">
-      <h1 className="font-bold text-xl">12.08.22</h1>
+      {orderedMeals.map(([date, meals]) => (
+        <div key={date} className="flex flex-col gap-3">
 
-      {meals.map(meal => {
-        return (
-          <code>{meal.name}</code>
-        )
-      })}
+          <h1 className="font-bold text-xl">{date.replace(/-/g, ".")}</h1>
 
-      <div className="flex flex-col gap-4">
-        <MealItem isOnDiet={false} />
-        <MealItem isOnDiet={false} />
-        <MealItem isOnDiet={false} />
-        <MealItem isOnDiet={false} />
-      </div>
+          <div className="flex flex-col gap-4">
+            {meals.map(meal => (
+              <>
+                <MealItem
+                  mealName={meal.name}
+                  mealDescription={meal.description}
+                  mealDate={meal.date}
+                  mealHours={meal.time}
+                  mealIsOnDiet={Boolean(meal.is_on_diet)}
+                />
+              </>
+            ))}
+          </div>
+        </div>
+      ))}
+
     </div>
   )
 }

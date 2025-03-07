@@ -16,9 +16,9 @@ export async function insertMealIntoDB(mealData: MealType, userId: string) {
 }
 
 export async function deleteMealById(id: string) {
-  console.log("refeição recebida no BAnco de dados" + id)
+  // console.log("refeição recebida no BAnco de dados" + id)
   const query = await knexDb("meals").del().where({ id })
-  console.log("linha sendo deletada: " + query)
+  // console.log("linha sendo deletada: " + query)
 
   return query
 }
