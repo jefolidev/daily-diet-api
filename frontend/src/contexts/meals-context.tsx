@@ -8,6 +8,7 @@ interface MealsContextType {
   outOfDietMeals: MealType[] | undefined
   inDietMeals: MealType[] | undefined
   bestDietSequence: number
+  inDietMealsPercentage: string
 }
 
 export const MealsContext = createContext({} as MealsContextType)
@@ -34,6 +35,8 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
     return maxSequence
   }, [meals])
 
+  const inDietMealsPercentage = ((inDietMeals.length / meals.length) * 100).toString().slice(0, 4).replace('.', ',')
+
   const { getMeals } = mealsServices
 
   const { data: getMealsFn } = useQuery({
@@ -54,7 +57,7 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
 
 
   return (
-    <MealsContext.Provider value={{ bestDietSequence, meals, outOfDietMeals, inDietMeals }}>{children}</MealsContext.Provider>
+    <MealsContext.Provider value={{ inDietMealsPercentage, bestDietSequence, meals, outOfDietMeals, inDietMeals }}>{children}</MealsContext.Provider>
   )
 
 }

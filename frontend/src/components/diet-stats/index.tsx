@@ -5,7 +5,7 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, Dr
 import { Card } from './components/card';
 
 export function DietStats() {
-  const { bestDietSequence, inDietMeals, outOfDietMeals, meals } = useMeals()
+  const { inDietMealsPercentage, bestDietSequence, inDietMeals, outOfDietMeals, meals } = useMeals()
 
   console.log(inDietMeals)
 
@@ -16,8 +16,8 @@ export function DietStats() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <button className="text-zinc-900 gap-2 rounded-xl bg-green-light hover:border-[3px] hover:border-green-mid border-[3px] transition-all duration-75 hover:cursor-pointer border-transparent flex flex-col py-6 w-full items-center justify-center ">
-          <h1 className="font-bold text-5xl">90,86%</h1>
+        <button className={`text-zinc-900 gap-2 rounded-xl ${Number(inDietMealsPercentage) < 60 ? "bg-red-light hover:border-red-mid" : "bg-green-light hover:border-green-mid"} hover:border-[3px]  border-[3px] transition-all duration-75 hover:cursor-pointer border-transparent flex flex-col py-6 w-full items-center justify-center`} >
+          <h1 className="font-bold text-5xl">{inDietMealsPercentage}%</h1>
           <p className="text-xl">das refeições dentro da dieta</p>
         </button>
       </DrawerTrigger>
