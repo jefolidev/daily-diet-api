@@ -1,3 +1,4 @@
+import { NavLink } from "react-router"
 import logo from "../../../assets/logo.png"
 import { Card } from "../../../components/diet-stats/components/card"
 import { Input } from "../../../components/input"
@@ -78,6 +79,10 @@ export function SignInPage() {
 
         <button type="submit" className="flex w-full py-4 font-bold text-white rounded-sm justify-center bg-zinc-900 hover:bg-zinc-800 hover:cursor-pointer transition-colors">Criar usuário</button>
       </form>
+
+      <div className="flex gap w-full justify-center gap-1">
+        <p>Já possui cadastro? </p><NavLink className="underline hover:text-blue-950" to={"/login"}>Faça login!</NavLink>
+      </div>
     </div>
   )
 }
