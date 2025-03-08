@@ -133,3 +133,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.input-wrapper { 
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  flex: 1;
+}
+
+
