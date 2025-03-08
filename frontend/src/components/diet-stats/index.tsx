@@ -1,9 +1,18 @@
 import { X } from '@phosphor-icons/react';
 
+import { useMeals } from '../../hooks/use-meals';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "../ui/drawer";
 import { Card } from './components/card';
 
 export function DietStats() {
+  const { bestDietSequence, inDietMeals, outOfDietMeals, meals } = useMeals()
+
+  console.log(inDietMeals)
+
+  if (!inDietMeals || !outOfDietMeals) {
+    return 0
+  }
+
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -28,12 +37,12 @@ export function DietStats() {
           </DrawerHeader>
           <div className="space-y-3">
 
-            <Card slug='melhor sequência de pratos dentro da dieta' value={22} />
-            <Card slug='refeições registradas' value={109} />
+            <Card slug='melhor sequência de pratos dentro da dieta' value={bestDietSequence} />
+            <Card slug='refeições registradas' value={meals.length} />
 
             <div className='flex gap-2'>
-              <Card variant='positive' value={22} />
-              <Card variant='negative' value={10} />
+              <Card variant='positive' value={inDietMeals.length} />
+              <Card variant='negative' value={outOfDietMeals.length} />
             </div>
 
           </div>

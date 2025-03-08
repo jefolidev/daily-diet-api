@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { newMealSchema, type NewMeal } from "../../../../api/schemas/meals-schema";
 import { mealsServices } from "../../../../api/services/meals-services";
+import { useMeals } from "../../../../hooks/use-meals";
 import { queryClient } from "../../../../lib/react-query";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../../ui/dialog";
 
@@ -13,10 +14,20 @@ interface EditMealItemProsp {
 }
 
 export function EditMealItem({ mealId }: EditMealItemProsp) {
+  const { meals } = useMeals()
+  const currentMeal = meals.find(meal => meal.id === mealId)
+
   const { updateMeal } = mealsServices
 
   const { getValues, handleSubmit, register, formState: { errors } } = useForm<NewMeal>({
-    resolver: zodResolver(newMealSchema)
+    resolver: zodResolver(newMealSchema),
+    defaultValues: {
+      name: currentMeal?.name,
+      description: currentMeal?.description,
+      is_on_diet: currentMeal?.is_on_diet,
+      date: currentMeal?.date,
+      time: currentMeal?.time
+    }
   })
 
   console.log(errors)
@@ -26,7 +37,8 @@ export function EditMealItem({ mealId }: EditMealItemProsp) {
     mutationFn: async (updatedMeal: NewMeal) => await updateMeal(updatedMeal, mealId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['meals'] })
-    }
+    },
+
   })
 
   function handleEditCurrentMeal(data: NewMeal) {
