@@ -10,9 +10,9 @@ export async function getAllTheUsers() {
   }
 }
 
-export async function createNewUser(userData: UserType) {
+export async function createNewUser(userData: UserType, accountId: string) {
   try {
-    return await insertUserIntoDB(userData)
+    return await insertUserIntoDB(userData, accountId)
   } catch (error) {
     console.error("An error occurred while trying to create a user. See the error below: ", error)
     throw new Error("An error occurred while trying to create a user. ")

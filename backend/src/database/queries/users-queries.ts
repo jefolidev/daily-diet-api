@@ -8,8 +8,8 @@ export async function selectAllUsers() {
   return queryData
 }
 
-export async function insertUserIntoDB(userData: UserType) {
-  const newUser = { ...userData, id: crypto.randomUUID() }
+export async function insertUserIntoDB(userData: UserType, accountId: string) {
+  const newUser: UserType = { ...userData, id: crypto.randomUUID(), account_id: accountId }
   const query = await knexDb('users').insert(newUser).returning("*")
 
   return query
