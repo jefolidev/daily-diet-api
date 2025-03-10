@@ -39,8 +39,6 @@ export function LoginPage() {
 
         </fieldset>
 
-
-
         <button type="submit" className="flex w-full py-4 font-bold text-white rounded-sm justify-center bg-zinc-900 hover:bg-zinc-800 hover:cursor-pointer transition-colors">Entrar</button>
       </form>
 

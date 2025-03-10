@@ -1,10 +1,11 @@
 interface CardProps {
   value: number
   slug?: string
-  variant?: "default" | "positive" | "negative"
+  variant?: "default" | "positive" | "negative" | "custom"
+  color?: string
 }
 
-export function Card({ slug, value, variant = "default" }: CardProps) {
+export function Card({ slug, color, value, variant = "default" }: CardProps) {
   function chooseCardVariant() {
     switch (variant) {
       case "positive":
@@ -17,6 +18,12 @@ export function Card({ slug, value, variant = "default" }: CardProps) {
         return (<div className="w-full py-4 flex flex-col items-center gap-2 rounded-md bg-red-light">
           <h1 className="font-bold text-4xl">{value}</h1>
           <span>refeições fora da dieta</span>
+        </div>)
+
+      case "custom":
+        return (<div className={`w-full py-4 flex flex-col items-center gap-2 rounded-md ${color}`}>
+          <h1 className="font-bold text-4xl">{value}</h1>
+          <span>{slug}</span>
         </div>)
 
       default:

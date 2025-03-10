@@ -4,7 +4,7 @@ export const userSchema = z.object({
   id: z.string().uuid().optional(),
   account_id: z.string().uuid().optional(),
   name: z.string(),
-  birth: z.date().default(new Date()),
+  birth: z.string(),
   age: z.number(),
   gender: z.enum(["man", "woman"]),
   weight: z.number(),

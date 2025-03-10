@@ -1,7 +1,7 @@
 interface RadioCustomProps extends React.InputHTMLAttributes<HTMLInputElement> {
   slugText: string
-  checkedBgColor: string
-  checkedBorderColor: string
+  customClass: string
+
 }
 
 export function Radio(props: RadioCustomProps) {
@@ -9,7 +9,7 @@ export function Radio(props: RadioCustomProps) {
     <div className="relative w-full flex items-center justify-center py-4 ">
       <input
         type="radio"
-        className={`hover:cursor-pointer absolute appearance-none  bg-zinc-200/80 rounded-md size-full checked:bg-${props.checkedBgColor} border-2 border-transparent checked:border-2 checked:border-${props.checkedBorderColor} z-0`}
+        className={`hover:cursor-pointer absolute appearance-none  bg-zinc-200/80 rounded-md size-full ${props.customClass} border-2 border-transparent checked:border-2  z-0`}
         {...props}
       />
 

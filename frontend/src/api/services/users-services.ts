@@ -18,6 +18,7 @@ export const usersServices = {
 
   createNewUser: async (userData: UserType) => {
     try {
+      console.log("valor recebido pelo axios: " + JSON.stringify(userData, null, 2))
       const response = await api.post("/users", userData)
 
       const { data } = response
