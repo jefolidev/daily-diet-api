@@ -1,10 +1,14 @@
 import type { FastifyInstance } from "fastify"
+import { accountMiddlewares } from "../middlewares/account-middlewares"
 import { userAccountSchema } from "../schemas/account-schema"
 import { userSchema } from "../schemas/users-schema"
 import { createNewAccount, findAccountIdByEmail } from "../services/account-services"
-import { createNewUser, getAllTheUsers } from "../services/user-services"
+import { createNewUser, getAllTheUsers, removeUserById } from "../services/user-services"
+
+const { checkIfEmailExists, ensureAuthenticaded } = accountMiddlewares
 
 export async function usersRoutes(app: FastifyInstance) {
+
   app.get("/", async (_, res) => {
     try {
       const users = await getAllTheUsers()
@@ -17,7 +21,7 @@ export async function usersRoutes(app: FastifyInstance) {
     }
   })
 
-  app.post('/', async (req, res) => {
+  app.post('/', { preHandler: checkIfEmailExists }, async (req, res) => {
     try {
       const { body } = req
 
@@ -42,6 +46,25 @@ export async function usersRoutes(app: FastifyInstance) {
       console.error("An error ocurred while trying to POST a new user. See the error: ", error)
       throw new Error("An error ocurred while trying to POST a new user.")
     }
-  })
+  }),
+
+    app.delete('/:id', { preHandler: ensureAuthenticaded }, async (req, res) => {
+      try {
+        const { id } = req.params as { id: string }
+        // const { id } = params as { id: string }
+
+        if (!id) {
+          return res.status(400).send("User ID is required")
+        }
+
+        await removeUserById(id)
+        return res.status(200).send(`Meal with id ${id} deleted successfully `)
+
+      } catch (error) {
+        console.error("An error ocurred while trying to DELETE the current user. See the error: ", error)
+        throw new Error("An error ocurred while trying to DELETE the current user.")
+      }
+
+    })
 
 }

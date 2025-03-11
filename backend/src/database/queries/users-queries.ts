@@ -14,3 +14,12 @@ export async function insertUserIntoDB(userData: UserType, accountId: string) {
 
   return query
 }
+
+
+export async function deleteUserById(id: string) {
+  // console.log("refeição recebida no BAnco de dados" + id)
+  const query = await knexDb("users").del().where({ id })
+  // console.log("linha sendo deletada: " + query)
+
+  return query
+}

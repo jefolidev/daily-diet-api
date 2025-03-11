@@ -1,4 +1,4 @@
-import { insertUserIntoDB, selectAllUsers } from "../database/queries/users-queries";
+import { deleteUserById, insertUserIntoDB, selectAllUsers } from "../database/queries/users-queries";
 import type { UserType } from "../schemas/users-schema";
 
 export async function getAllTheUsers() {
@@ -16,5 +16,19 @@ export async function createNewUser(userData: UserType, accountId: string) {
   } catch (error) {
     console.error("An error occurred while trying to create a user. See the error below: ", error)
     throw new Error("An error occurred while trying to create a user. ")
+  }
+}
+
+export async function removeUserById(userId: string) {
+  try {
+    if (!userId) {
+      throw new Error("No user finded, please, fix the user id and try again!")
+    }
+
+    return await deleteUserById(userId)
+
+  } catch (error) {
+    console.error("An error occurred while trying to remove a user. See the error below: ", error)
+    throw new Error("An error occurred while trying to remove a user. ")
   }
 }

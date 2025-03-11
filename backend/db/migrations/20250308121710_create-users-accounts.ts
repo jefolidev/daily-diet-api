@@ -5,6 +5,7 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable('accounts', (table) => {
     table.uuid('id').primary()
     table.string('email').unique().notNullable()
+    table.enum('role', ['user', 'adm'])
     table.string('password').notNullable()
     table.timestamp('created_at').defaultTo(knex.fn.now()).notNullable()
   })

@@ -9,14 +9,26 @@ export async function selectAllUsersAccounts(): Promise<UserAccount[]> {
   return query
 }
 
+export async function selectAccountIdByEmail(email: string): Promise<string | null> {
+  const account = await knexDb("accounts").select("id").where({ email }).first()
+
+  return account ? account.id : null
+}
+
+export async function selectFirstMatchedEmail(email: string): Promise<string[]> {
+  const query = await knexDb("accounts").where({ email }).first()
+
+  return query
+}
+
+export async function selectRoleFromUser(accountId: string) {
+  const query = await knexDb("accounts").where({ id: accountId }).from("role")
+  console.log("query banco de dados de role", query)
+  return query ? query : `${accountId} --- ID RECEBIDO `
+}
+
 export async function insertAccountIntoDb(accountData: UserAccount) {
   const [account] = await knexDb("accounts").insert({ ...accountData, id: crypto.randomUUID() }).returning("*")
 
   return account
-}
-
-export async function getAccountIdByEmail(email: string): Promise<string | null> {
-  const account = await knexDb("accounts").select("id").where({ email }).first()
-
-  return account ? account.id : null
 }

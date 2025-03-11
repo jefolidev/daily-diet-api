@@ -1,11 +1,16 @@
 import type { FastifyInstance } from "fastify";
+import { accountMiddlewares } from "../middlewares/account-middlewares";
 import { mealsSchema } from "../schemas/meals-schema";
 import { createNewMeal, getAllTheMeals, removeMealById, updateMealById } from "../services/meal-services";
 
+const { ensureAuthenticaded } = accountMiddlewares
+
 export async function mealsRoutes(app: FastifyInstance) {
-  app.get('/', async (_, res) => {
+  app.get('/', { preHandler: ensureAuthenticaded }, async (req, res) => {
     try {
       const meals = await getAllTheMeals()
+
+      console.log(req.user?.id + " " + req.user?.role)
 
       const formattedMeals = meals.map(meal => {
         const formattedDate = meal.date.split("T")[0]
@@ -21,31 +26,30 @@ export async function mealsRoutes(app: FastifyInstance) {
 
       return res.status(201).send(formattedMeals)
     } catch (error) {
-      console.error("An error ocurred while trying to GET a new user. See the error: ", error)
-      throw new Error("An error ocurred while trying to GET a new user.")
+      console.error("An error ocurred while trying to GET the meals. See the error: ", error)
+      throw new Error("An error ocurred while trying to GET the meals.")
     }
   })
 
-  app.post('/', async (req, res) => {
-    try {
-      const { body } = req
-      const mealData = mealsSchema.parse(body)
+  app.post('/',
+    { preHandler: ensureAuthenticaded },
+    async (req, res) => {
+      try {
+        const { body } = req
 
-      const meal = await createNewMeal(mealData, mealData.user_id)
+        const mealData = mealsSchema.parse(body)
+        const meal = await createNewMeal(mealData, mealData.user_id)
+        const newMeal = meal.map(mealItem => {
+          return { ...mealItem, is_on_diet: mealData.is_on_diet }
+        })
 
-      const newMeal = meal.map(mealItem => {
-        return { ...mealItem, is_on_diet: mealData.is_on_diet }
-      })
+        return res.status(201).send({ newMeal })
 
-      console.log("Resposta da rota do back" + body)
-
-      return res.status(201).send(newMeal)
-
-    } catch (error) {
-      console.error("An error ocurred while trying to POST a new meal. See the error: ", error)
-      throw new Error("An error ocurred while trying to POST a new meal.")
-    }
-  })
+      } catch (error) {
+        console.error("An error ocurred while trying to POST a new meal. See the error: ", error)
+        throw new Error("An error ocurred while trying to POST a new meal.")
+      }
+    })
 
   app.put('/:id', async (req, res) => {
     try {
