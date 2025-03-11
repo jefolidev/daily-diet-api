@@ -3,7 +3,7 @@ import { accountMiddlewares } from "../middlewares/account-middlewares"
 import { userAccountSchema } from "../schemas/account-schema"
 import { userSchema } from "../schemas/users-schema"
 import { createNewAccount, findAccountIdByEmail } from "../services/account-services"
-import { createNewUser, getAllTheUsers, removeUserById } from "../services/user-services"
+import { createNewUser, getAllTheUsers, getMealsFromUserById, removeUserById } from "../services/user-services"
 
 const { checkIfEmailExists, ensureAuthenticaded } = accountMiddlewares
 
@@ -19,7 +19,25 @@ export async function usersRoutes(app: FastifyInstance) {
       console.error("An error ocurred while trying to GET a user. See the error: ", error)
       throw new Error("An error ocurred while trying to GET a user.")
     }
-  })
+  }),
+
+    app.get("/meals", { preHandler: ensureAuthenticaded }, async (req, res) => {
+      try {
+        const accountId = req.user?.id
+
+        if (!accountId) {
+          throw new Error("User not exist! Insert a valid id.")
+        }
+
+        const users = await getMealsFromUserById(accountId)
+
+        return res.status(200).send(users)
+
+      } catch (error) {
+        console.error("An error ocurred while trying to GET a user. See the error: ", error)
+        throw new Error("An error ocurred while trying to GET a user.")
+      }
+    })
 
   app.post('/', { preHandler: checkIfEmailExists }, async (req, res) => {
     try {

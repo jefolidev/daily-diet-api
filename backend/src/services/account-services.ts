@@ -22,7 +22,6 @@ export async function getFirstMatchedEmail(email: string) {
 
 export async function getRoleFromUser(accountId: string) {
   try {
-    console.log("ID DO USUARIO DA ROLE", accountId)
     return await selectRoleFromUser(accountId)
   } catch (error) {
     console.error("An error occurred while trying to get the role of current user. See the error below: ", error)

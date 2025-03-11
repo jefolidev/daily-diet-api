@@ -37,8 +37,16 @@ export async function mealsRoutes(app: FastifyInstance) {
       try {
         const { body } = req
 
-        const mealData = mealsSchema.parse(body)
-        const meal = await createNewMeal(mealData, mealData.user_id)
+        const accountId = req.user?.id
+
+        console.log("account id da rota post de comidas " + accountId)
+
+        if (!accountId) {
+          return res.code(404).send("User not found")
+        }
+
+        const mealData = mealsSchema.omit({ user_id: true }).parse(body)
+        const meal = await createNewMeal(mealData, accountId)
         const newMeal = meal.map(mealItem => {
           return { ...mealItem, is_on_diet: mealData.is_on_diet }
         })

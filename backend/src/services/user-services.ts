@@ -1,4 +1,4 @@
-import { deleteUserById, insertUserIntoDB, selectAllUsers } from "../database/queries/users-queries";
+import { deleteUserById, insertUserIntoDB, selectAllUsers, selectMealsFromUserById } from "../database/queries/users-queries";
 import type { UserType } from "../schemas/users-schema";
 
 export async function getAllTheUsers() {
@@ -7,6 +7,15 @@ export async function getAllTheUsers() {
   } catch (error) {
     console.error("An error occurred while trying to get the users. See the error below: ", error)
     throw new Error("An error occurred while trying to get the users.")
+  }
+}
+
+export async function getMealsFromUserById(accountId: string) {
+  try {
+    return await selectMealsFromUserById(accountId)
+  } catch (error) {
+    console.error("An error occurred while trying to get the meals from the current user. See the error below: ", error)
+    throw new Error("An error occurred while trying to get the meals from the current user. ")
   }
 }
 

@@ -10,14 +10,14 @@ export async function selectAllMeals(): Promise<MealType[]> {
 
   console.log("query de todas as refeições: " + JSON.stringify(query, null, 2))
 
-  // console.log(query)
-
   return query
 }
+export async function insertMealIntoDB(mealData: MealType, accountId: string) {
+  const userId = await knexDb("users").select("account_id").where({ account_id: accountId }).first()
 
-export async function insertMealIntoDB(mealData: MealType, userId: string) {
+  console.log("ID ACHADO NA TABELA USERS NO QUERIE" + userId.account_id)
 
-  const newMeal = { ...mealData, id: crypto.randomUUID(), is_on_diet: Boolean(mealData.is_on_diet), user_id: userId, date: formatDateToCreateNewMeal(mealData.date) }
+  const newMeal = { ...mealData, id: crypto.randomUUID(), is_on_diet: Boolean(mealData.is_on_diet), user_id: userId.account_id, date: formatDateToCreateNewMeal(mealData.date) }
   const query = await knexDb("meals").insert(newMeal).returning("*")
 
   return query

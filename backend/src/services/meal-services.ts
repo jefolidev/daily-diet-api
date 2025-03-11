@@ -13,17 +13,16 @@ export async function getAllTheMeals() {
   }
 }
 
-export async function createNewMeal(mealData: MealType, userId: string) {
+export async function createNewMeal(mealData: MealType, accountId: string) {
   try {
-    if (!userId) {
+    if (!accountId) {
       console.error("No user finded, please, fix the user id and try again!")
       throw new Error("No user finded, please, fix the user id and try again!")
     }
 
-    console.log("Services do Back end: " + mealData + userId)
+    // console.log("Services do Back end: " + mealData + accountId)
 
-
-    return await insertMealIntoDB(mealData, userId)
+    return await insertMealIntoDB(mealData, accountId)
 
   } catch (error) {
     console.error("An error occurred while trying to create a meal. See the error below: ", error)
