@@ -3,34 +3,53 @@ import { useMutation } from "@tanstack/react-query"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { NavLink } from "react-router"
+import { toast } from "sonner"
 import { userAccountSchema, type UserAccount } from "../../../api/schemas/account-schema"
 import { usersSchema, type UserType } from "../../../api/schemas/users-schema"
 import { usersServices } from "../../../api/services/users-services"
 import logo from "../../../assets/logo.png"
 import { Input } from "../../../components/input"
 import { Radio } from "../../../components/radio"
+import { useUsers } from "../../../hooks/use-users"
 import { calculateAge } from "../../../utils/calculate-age"
 import { calculateImc } from "../../../utils/calculate-imc"
 import { ImcCard } from "./componentes/imc-card"
 
+/* 
+  TODO: Adicionar confirmações visuais ao enviar o formulario: toaster e remover os valores dos campos
+  TODO: Adicionar mensagens de erros caso haja
+*/
+
 type UserWithAccount = UserType & UserAccount
 
 export function SignInPage() {
+  const [error, setError] = useState<string>("")
+
   const [height, setHeight] = useState<string | undefined>()
   const [weight, setWeight] = useState<string | undefined>()
 
   const [imc, setImc] = useState<number>(0)
 
-  const { handleSubmit, register: register } = useForm<UserWithAccount>({
-    resolver: zodResolver(usersSchema.and(userAccountSchema))
-  })
+  const { accounts } = useUsers()
 
   const { createNewUser } = usersServices
 
+  const { reset, handleSubmit, register: register } = useForm<UserWithAccount>({
+    resolver: zodResolver(usersSchema.and(userAccountSchema))
+  })
+
   const { mutate: handleCreateUserFn } = useMutation({
     mutationFn: createNewUser,
-    onSuccess: () => { console.log("Usuário criado com sucesso") }
+    onSuccess: () => {
+      reset()
+      toast.success("Usuário criado com sucesso!")
+      console.log("Usuário criado com sucesso")
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
   })
+
 
   useMemo(() => {
     if (height && weight) {
@@ -39,10 +58,18 @@ export function SignInPage() {
   }, [height, weight])
 
   // console.log(getValues())
-  console.log(imc)
+  // console.log(imc)
   // console.log(errors)
 
   function handleSubmitUserCreate(data: UserWithAccount) {
+    const hasAlreadyAccount = accounts.find(account => account.email === data.email)
+
+    if (hasAlreadyAccount) {
+      setError("Esse email já foi cadastrado!")
+      console.error(error)
+      return toast.error("Esse email já foi cadastrado!")
+    }
+
     const newUser: UserWithAccount = {
       ...data,
       imc,

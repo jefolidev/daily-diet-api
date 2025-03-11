@@ -7,14 +7,19 @@ import './index.css'
 import { queryClient } from './lib/react-query'
 
 import { BrowserRouter } from 'react-router'
+import { Toaster } from './components/ui/sonner'
+import { UsersProvider } from './contexts/users-context-'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <MealsProvider>
-          <App />
-        </MealsProvider>
+        <UsersProvider>
+          <MealsProvider>
+            <Toaster />
+            <App />
+          </MealsProvider>
+        </UsersProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>
