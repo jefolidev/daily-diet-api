@@ -12,9 +12,12 @@
     "eslint": "^9.21.0"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.8.2"
   },
   "dependencies": {
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.22.0",
+    "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^11.0.0",
     "@types/jsonwebtoken": "^9.0.9",
     "dotenv": "^16.4.7",

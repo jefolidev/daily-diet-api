@@ -1,6 +1,6 @@
-import type { MealType } from "../../api/schemas/meals-schema";
-import { useMeals } from "../../hooks/use-meals";
-import { MealItem } from "./components/meal-item";
+import type { MealType } from '../../api/schemas/meals-schema'
+import { useMeals } from '../../hooks/use-meals'
+import { MealItem } from './components/meal-item'
 
 type OrderedMeals = Record<string, MealType[]>
 
@@ -20,14 +20,13 @@ export function MealsIndex() {
   const orderedMeals = Object.entries(reducedMeals)
 
   return (
-    <div className="px-6 flex flex-col gap-4">
+    <div className="flex flex-col gap-4 px-6">
       {orderedMeals.map(([date, meals]) => (
         <div key={date} className="flex flex-col gap-3">
-
-          <h1 className="font-bold text-xl">{date.replace(/-/g, ".")}</h1>
+          <h1 className="text-xl font-bold">{date.replace(/-/g, '.')}</h1>
 
           <div className="flex flex-col gap-4">
-            {meals.map(meal => {
+            {meals.map((meal) => {
               if (meal.id) {
                 return (
                   <>
@@ -41,12 +40,13 @@ export function MealsIndex() {
                     />
                   </>
                 )
+              } else {
+                return <>Nenhuma refeição encontrada!</>
               }
             })}
           </div>
         </div>
       ))}
-
     </div>
   )
 }

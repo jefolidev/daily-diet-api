@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 export const mealsSchema = z.object({
   id: z.string().uuid().optional(),
@@ -8,7 +8,7 @@ export const mealsSchema = z.object({
   time: z.string(),
   is_on_diet: z.number(),
   user_id: z.string().uuid(),
-  created_at: z.date().default(new Date())
+  created_at: z.date().default(new Date()),
 })
 
 export type MealType = z.infer<typeof mealsSchema>
@@ -18,7 +18,7 @@ export const newMealSchema = z.object({
   description: z.string().nullable(),
   date: z.coerce.date(),
   time: z.string(),
-  is_on_diet: z.coerce.number()
+  is_on_diet: z.coerce.number(),
 })
 
 export type NewMeal = z.infer<typeof newMealSchema>

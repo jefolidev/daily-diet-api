@@ -1,4 +1,4 @@
-import { api } from "../axios"
+import { api } from '../axios'
 
 export const accountsServices = {
   getAccounts: async () => {
@@ -7,10 +7,9 @@ export const accountsServices = {
       const { data } = response
 
       return data
-
     } catch (error) {
-      console.error("Houve um erro ao listar as contas: " + error)
-      throw new Error("A error has excepted at GET the accounts: " + error)
+      console.error('Houve um erro ao listar as contas: ' + error)
+      throw new Error('A error has excepted at GET the accounts: ' + error)
     }
-  }
+  },
 }

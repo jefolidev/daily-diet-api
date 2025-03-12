@@ -2,9 +2,10 @@ import type { DoneFuncWithErrOrRes, FastifyReply, FastifyRequest } from "fastify
 import { verify } from "jsonwebtoken";
 import { authConfig } from "../configs/auth";
 import { getFirstMatchedEmail } from "../services/account-services";
+import { Role, rolePermissions, type Rules } from "../utils/rules";
 
 interface TokenPayload {
-  role: string,
+  role: Role,
   sub: string
 }
 
@@ -40,10 +41,35 @@ export const accountMiddlewares = {
 
     request.user = {
       id: String(user_id),
-      role
+      role: role
     }
 
+    console.log("Middleware de Autenticação: Role recebida: ", role)
+
     done()
-    // return response.status(201).send("Authenticated!")
+  },
+
+  checkPermissions: (requiredPermissions: Rules[]) => {
+    return (request: FastifyRequest, response: FastifyReply, done: DoneFuncWithErrOrRes) => {
+      console.log("Cargo do usuário logado: ", request.user?.role)
+
+      console.log("Permissões: ", rolePermissions)
+      console.log("Permissões Pedidas: ", requiredPermissions)
+
+      if (!request.user || !request.user?.role) {
+        return response.code(401).send("Unauthorized")
+      }
+
+      const userPermissions = rolePermissions[request.user.role]
+
+      console.log("Permissões do usuário logado: ", userPermissions)
+
+      const hasPermission = requiredPermissions.some(permission => userPermissions.includes(permission))
+
+      if (!hasPermission) {
+        return response.status(403).send("Forbidden")
+      }
+      done()
+    }
   }
 }

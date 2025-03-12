@@ -1,7 +1,7 @@
-import { Route, Routes } from "react-router";
-import { LoginPage } from "../pages/auth/login";
-import { SignInPage } from "../pages/auth/signin";
-import { MealsMain } from "../pages/meals";
+import { Route, Routes } from 'react-router'
+import { LoginPage } from '../pages/auth/login'
+import { SignInPage } from '../pages/auth/signin'
+import { MealsMain } from '../pages/meals'
 
 export function Router() {
   return (

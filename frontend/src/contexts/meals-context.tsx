@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { createContext, useEffect, useMemo, useState } from "react";
-import type { MealType } from "../api/schemas/meals-schema";
-import { mealsServices } from "../api/services/meals-services";
+import { useQuery } from '@tanstack/react-query'
+import { createContext, useEffect, useMemo, useState } from 'react'
+import type { MealType } from '../api/schemas/meals-schema'
+import { mealsServices } from '../api/services/meals-services'
 
 interface MealsContextType {
   meals: MealType[]
@@ -16,8 +16,10 @@ export const MealsContext = createContext({} as MealsContextType)
 export function MealsProvider({ children }: { children: React.ReactNode }) {
   const [meals, setMeals] = useState<MealType[]>([])
 
-  const outOfDietMeals = meals.filter(meal => Boolean(meal.is_on_diet) === false)
-  const inDietMeals = meals.filter(meal => Boolean(meal.is_on_diet) === true)
+  const outOfDietMeals = meals.filter(
+    (meal) => Boolean(meal.is_on_diet) === false,
+  )
+  const inDietMeals = meals.filter((meal) => Boolean(meal.is_on_diet) === true)
 
   const bestDietSequence = useMemo(() => {
     let maxSequence = 0
@@ -35,13 +37,16 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
     return maxSequence
   }, [meals])
 
-  const inDietMealsPercentage = ((inDietMeals.length / meals.length) * 100).toString().slice(0, 4).replace('.', ',')
+  const inDietMealsPercentage = ((inDietMeals.length / meals.length) * 100)
+    .toString()
+    .slice(0, 4)
+    .replace('.', ',')
 
   const { getMeals } = mealsServices
 
   const { data: getMealsFn } = useQuery({
-    queryKey: ["meals"],
-    queryFn: getMeals
+    queryKey: ['meals'],
+    queryFn: getMeals,
   })
 
   useEffect(() => {
@@ -55,9 +60,17 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
     // console.log("Dados recebidos:", getMealsFn);
   }, [getMealsFn])
 
-
   return (
-    <MealsContext.Provider value={{ inDietMealsPercentage, bestDietSequence, meals, outOfDietMeals, inDietMeals }}>{children}</MealsContext.Provider>
+    <MealsContext.Provider
+      value={{
+        inDietMealsPercentage,
+        bestDietSequence,
+        meals,
+        outOfDietMeals,
+        inDietMeals,
+      }}
+    >
+      {children}
+    </MealsContext.Provider>
   )
-
 }

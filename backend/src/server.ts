@@ -10,25 +10,27 @@ const app = fastify()
 const { PORT } = env // 3333
 
 app.register(cors, {
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"]
+  origin: '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
 })
 
 app.register(accountsRoutes, {
-  prefix: 'accounts'
+  prefix: 'accounts',
 })
 
 app.register(usersRoutes, {
-  prefix: 'users'
+  prefix: 'users',
 })
 
 app.register(mealsRoutes, {
-  prefix: 'meals'
+  prefix: 'meals',
 })
 
 app
   .listen({
-    port: PORT
-  }).then(() => {
-    console.log("🔌 HTTP Server Running!")
+    port: PORT,
+  })
+  .then(() => {
+    console.log('🔌 HTTP Server Running!')
   })

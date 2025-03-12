@@ -7,8 +7,11 @@ export function calculateAge(birth: string): number {
   const currentMonth = today.getMonth()
   const currentDay = today.getDate()
 
-
-  if (currentMonth < birthDate.getMonth() || currentMonth === birthDate.getMonth() && currentDay < birthDate.getDate()) age--
+  if (
+    currentMonth < birthDate.getMonth() ||
+    (currentMonth === birthDate.getMonth() && currentDay < birthDate.getDate())
+  )
+    age--
 
   return age
 }

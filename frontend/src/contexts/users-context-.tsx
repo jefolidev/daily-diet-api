@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { createContext, useEffect, useState } from "react";
-import type { UserAccount } from "../api/schemas/account-schema";
-import type { UserType } from "../api/schemas/users-schema";
-import { accountsServices } from "../api/services/accounts-services";
-import { usersServices } from "../api/services/users-services";
+import { useQuery } from '@tanstack/react-query'
+import { createContext, useEffect, useState } from 'react'
+import type { UserAccount } from '../api/schemas/account-schema'
+import type { UserType } from '../api/schemas/users-schema'
+import { accountsServices } from '../api/services/accounts-services'
+import { usersServices } from '../api/services/users-services'
 
 interface UsersContextType {
   accounts: UserAccount[]
@@ -20,13 +20,13 @@ export function UsersProvider({ children }: { children: React.ReactNode }) {
   const { getAccounts } = accountsServices
 
   const { data: getAccountsFn } = useQuery({
-    queryKey: ["accounts"],
-    queryFn: getAccounts
+    queryKey: ['accounts'],
+    queryFn: getAccounts,
   })
 
   const { data: getUsersFn } = useQuery({
-    queryKey: ["users"],
-    queryFn: getUsers
+    queryKey: ['users'],
+    queryFn: getUsers,
   })
 
   useEffect(() => {
@@ -40,6 +40,8 @@ export function UsersProvider({ children }: { children: React.ReactNode }) {
   }, [getAccountsFn, getUsersFn])
 
   return (
-    <UsersContext.Provider value={{ users, accounts }}>{children}</UsersContext.Provider>
+    <UsersContext.Provider value={{ users, accounts }}>
+      {children}
+    </UsersContext.Provider>
   )
 }
