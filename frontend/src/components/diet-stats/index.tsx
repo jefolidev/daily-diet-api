@@ -33,7 +33,9 @@ export function DietStats() {
         <button
           className={`gap-2 rounded-xl text-zinc-900 ${Number(inDietMealsPercentage) < 60 ? 'bg-red-light hover:border-red-mid' : 'bg-green-light hover:border-green-mid'} flex w-full flex-col items-center justify-center border-[3px] border-transparent py-6 transition-all duration-75 hover:cursor-pointer hover:border-[3px]`}
         >
-          <h1 className="text-5xl font-bold">{inDietMealsPercentage}%</h1>
+          <h1 className="text-5xl font-bold">
+            {Number(inDietMealsPercentage) > 0 ? inDietMealsPercentage : 0}%
+          </h1>
           <p className="text-xl">das refeições dentro da dieta</p>
         </button>
       </DrawerTrigger>

@@ -21,15 +21,15 @@ export const accountMiddlewares = {
   },
 
   ensureAuthenticaded: (request: FastifyRequest, response: FastifyReply, done: DoneFuncWithErrOrRes) => {
-    const authHeader = request.headers.authorization
-
-    if (!authHeader) {
-      response.status(401).send("JWT token not informed")
-      throw new Error("JWT token not informed")
-    }
+    // const authHeader = request.headers.authorization
+    // console.log(authHeader)
+    // if (!authHeader) {
+    //   response.status(401).send("JWT token not informed")
+    //   throw new Error("JWT token not informed")
+    // }
 
     const token = request.cookies.token
-
+    console.log('Token recebido no cookie:', token)
     const { secret } = authConfig.jwt
 
     if (!secret || !token) {

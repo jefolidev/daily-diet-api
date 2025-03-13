@@ -5,7 +5,7 @@ import { accountsRoutes } from './routes/accounts'
 import { mealsRoutes } from './routes/meals'
 import { usersRoutes } from './routes/users'
 
-import cookie from '@fastify/cookie'
+import { fastifyCookie } from '@fastify/cookie'
 
 const app = fastify()
 
@@ -17,11 +17,11 @@ app.register(cors, {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 })
 
-app.register(cookie)
-
 app.register(accountsRoutes, {
   prefix: 'accounts',
 })
+
+app.register(fastifyCookie)
 
 app.register(usersRoutes, {
   prefix: 'users',

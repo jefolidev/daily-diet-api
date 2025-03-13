@@ -60,10 +60,9 @@ export async function accountsRoutes(app: FastifyInstance) {
       const token = await authenticateUser(email, password)
 
       res.setCookie('token', token, {
+        path: '/',
         httpOnly: true,
         secure: env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        path: '/',
         maxAge: 60 * 60 * 24,
       })
 

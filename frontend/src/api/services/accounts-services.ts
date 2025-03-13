@@ -23,7 +23,7 @@ export const accountsServices = {
     try {
       const credentials = { email, password }
 
-      const response = await api.post('/login', credentials, {
+      const response = await api.post('/accounts/login', credentials, {
         withCredentials: true,
       })
       const { data } = response
@@ -37,7 +37,7 @@ export const accountsServices = {
 
   postLogout: async () => {
     try {
-      return await api.post('/logout', {}, { withCredentials: true })
+      return await api.post('/accounts/logout', {}, { withCredentials: true })
     } catch (error) {
       console.error('Houve um erro ao sair da conta atual: ' + error)
       throw new Error('A error has excepted at LOGOUT this account: ' + error)
