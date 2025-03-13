@@ -30,8 +30,17 @@ export const accountsServices = {
 
       return data
     } catch (error) {
-      console.error('Houve um erro ao listar as contas: ' + error)
-      throw new Error('A error has excepted at GET the accounts: ' + error)
+      console.error('Houve um erro ao fazer login: ' + error)
+      throw new Error('A error has excepted at login thist acccount: ' + error)
+    }
+  },
+
+  postLogout: async () => {
+    try {
+      return await api.post('/logout', {}, { withCredentials: true })
+    } catch (error) {
+      console.error('Houve um erro ao sair da conta atual: ' + error)
+      throw new Error('A error has excepted at LOGOUT this account: ' + error)
     }
   },
 }

@@ -8,18 +8,21 @@ import { queryClient } from './lib/react-query'
 
 import { BrowserRouter } from 'react-router'
 import { Toaster } from './components/ui/sonner'
+import { AuthProvider } from './contexts/auth-context'
 import { UsersProvider } from './contexts/users-context-'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <UsersProvider>
-          <MealsProvider>
-            <Toaster />
-            <App />
-          </MealsProvider>
-        </UsersProvider>
+        <AuthProvider>
+          <UsersProvider>
+            <MealsProvider>
+              <Toaster />
+              <App />
+            </MealsProvider>
+          </UsersProvider>
+        </AuthProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>,

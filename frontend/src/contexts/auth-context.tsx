@@ -20,10 +20,9 @@ interface AuthContextType {
 export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>()
-  const isAuthenticated = !user
+  const [user, setUser] = useState<User | null>(null)
 
-  const { postLogin } = accountsServices
+  const { postLogin, postLogout } = accountsServices
 
   const { data: logedUserData, isFetching } = useQuery({
     retry: false,
@@ -51,5 +50,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await loginFn({ email, password })
   }
 
-  async function logout
+  async function logout() {
+    await postLogout()
+    setUser(null)
+    queryClient.removeQueries({ queryKey: ['authUser'] })
+  }
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        login,
+        logout,
+      }}
+    >
+      {!isFetching && children}
+    </AuthContext.Provider>
+  )
 }
