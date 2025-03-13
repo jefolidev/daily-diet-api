@@ -73,10 +73,7 @@ export async function usersRoutes(app: FastifyInstance) {
   app.post(
     '/',
     {
-      preHandler: [
-        checkIfEmailExists,
-        checkPermissions([UserRules.USER_CREATE]),
-      ],
+      preHandler: [checkIfEmailExists],
     },
     async (req, res) => {
       try {
@@ -127,7 +124,7 @@ export async function usersRoutes(app: FastifyInstance) {
         }
 
         await removeUserById(id)
-        return res.status(200).send(`Meal with id ${id} deleted successfully `)
+        return res.status(200).send(`User with id ${id} deleted successfully `)
       } catch (error) {
         console.error(
           'An error ocurred while trying to DELETE the current user. See the error: ',

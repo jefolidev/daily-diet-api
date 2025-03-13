@@ -67,6 +67,10 @@ export async function accountsRoutes(app: FastifyInstance) {
 
       const { secret, expiresIn } = authConfig.jwt
 
+      if (!secret || typeof secret !== 'string') {
+        throw new Error('JWT secret is not defined')
+      }
+
       const token = sign({ sub: String(id), role: userRole }, secret, {
         expiresIn,
       })
