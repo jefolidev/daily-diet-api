@@ -19,13 +19,23 @@ export async function selectAccountIdByEmail(
   return account ? account.id : null
 }
 
-export async function selectFirstMatchedEmail(
+export async function selectAccountByEmail(
   email: string,
-): Promise<string[]> {
+): Promise<UserAccount> {
   const query = await knexDb('accounts').where({ email }).first()
+
+  console.log(
+    'QUERY DE SELECT FIRST MATCHED EMAIL: ' + JSON.stringify(query, null, 2),
+  )
 
   return query
 }
+
+// export async function selectAccountByEmail(email: string): Promise<string[]> {
+//   const query = await knexDb('accounts').where({ email }).first()
+
+//   return query
+// }
 
 export async function selectRoleFromUser(accountId: string) {
   const query = await knexDb('accounts').where({ id: accountId }).from('role')

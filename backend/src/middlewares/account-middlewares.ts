@@ -1,7 +1,7 @@
 import type { DoneFuncWithErrOrRes, FastifyReply, FastifyRequest } from "fastify";
 import { verify } from "jsonwebtoken";
 import { authConfig } from "../configs/auth";
-import { getFirstMatchedEmail } from "../services/account-services";
+import { findAccountByEmail } from "../services/account-services";
 import { Role, rolePermissions, type Rules } from "../utils/rules";
 
 interface TokenPayload {
@@ -13,7 +13,7 @@ export const accountMiddlewares = {
   checkIfEmailExists: async (request: FastifyRequest<{ Body: { email: string } }>, response: FastifyReply) => {
     const { email } = request.body
 
-    const userExists = await getFirstMatchedEmail(email)
+    const userExists = await findAccountByEmail(email)
 
     if (userExists) {
       return response.status(400).send({ message: "Email já registrado!" })

@@ -1,8 +1,8 @@
 import {
   insertAccountIntoDb,
+  selectAccountByEmail,
   selectAccountIdByEmail,
   selectAllUsersAccounts,
-  selectFirstMatchedEmail,
   selectRoleFromUser,
 } from '../database/queries/accounts-queries'
 import type { UserAccount } from '../schemas/account-schema'
@@ -19,9 +19,9 @@ export async function getAllTheAccounts(): Promise<UserAccount[]> {
   }
 }
 
-export async function getFirstMatchedEmail(email: string) {
+export async function findAccountByEmail(email: string) {
   try {
-    return await selectFirstMatchedEmail(email)
+    return await selectAccountByEmail(email)
   } catch (error) {
     console.error(
       'An error occurred while trying to get the emails. See the error below: ',
@@ -43,7 +43,7 @@ export async function getRoleFromUser(accountId: string) {
     )
     throw new Error(
       'An error occurred while trying to get the role of current user. ' +
-      error,
+        error,
     )
   }
 }
@@ -66,7 +66,7 @@ export async function findAccountIdByEmail(email: string) {
   } catch (error) {
     console.error(
       "User email couldn't be finded, please, fix the email and try again! " +
-      error,
+        error,
     )
     throw new Error(
       "User email couldn't be finded, please, fix the email and try again! ",
