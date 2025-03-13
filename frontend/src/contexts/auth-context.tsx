@@ -1,5 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { createContext, useEffect, useState } from 'react'
+import { api } from '../api/axios'
+import { accountsServices } from '../api/services/accounts-services'
+import { queryClient } from '../lib/react-query'
 
 interface User {
   id: string
@@ -20,13 +23,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>()
   const isAuthenticated = !user
 
-  const { data, isFetching } = useQuery({
-    queryKey: ['login'],
+  const { postLogin } = accountsServices
+
+  const { data: logedUserData, isFetching } = useQuery({
+    retry: false,
+    queryKey: ['authUser'],
+    queryFn: async () => {
+      const response = await api.get('/me', { withCredentials: true })
+      return response.data
+    },
   })
 
   useEffect(() => {
-    async function checkUserSession() {
-      const response
+    if (logedUserData) {
+      setUser(logedUserData)
     }
-  }, [])
+  }, [logedUserData])
+
+  const { mutateAsync: loginFn } = useMutation({
+    mutationFn: postLogin,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['authUser'] })
+    },
+  })
+
+  async function login(email: string, password: string) {
+    await loginFn({ email, password })
+  }
+
+  async function logout
 }

@@ -27,7 +27,7 @@ export async function accountsRoutes(app: FastifyInstance) {
         return res.status(200).send(accounts)
       } catch (error) {
         console.error(
-          'An error ocurred while trying to GET the accounts. See the error: ',
+          'An error ocurred while trying to GET the accounts. See the error: authUser',
           error,
         )
         throw new Error('An error ocurred while trying to GET the accounts.')
@@ -74,6 +74,21 @@ export async function accountsRoutes(app: FastifyInstance) {
         error,
       )
       throw new Error('An error ocurred while trying to login the account.')
+    }
+  })
+
+  app.post('/logout', async (req, res) => {
+    try {
+      res.clearCookie('token', {
+        path: '/',
+        httpOnly: true,
+        secure: env.NODE_ENV === 'production',
+        sameSite: 'lax',
+      })
+
+      return res.code(200).send({ message: 'Logged out successfully' })
+    } catch (error) {
+      return res.code(500).send({ message: 'Error while logging out' })
     }
   })
 }

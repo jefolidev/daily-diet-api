@@ -13,9 +13,19 @@ export const accountsServices = {
     }
   },
 
-  login: async ({ email, password }: { email: string; password: string }) => {
+  postLogin: async ({
+    email,
+    password,
+  }: {
+    email: string
+    password: string
+  }) => {
     try {
-      const response = await api.post('/login', { email, password })
+      const credentials = { email, password }
+
+      const response = await api.post('/login', credentials, {
+        withCredentials: true,
+      })
       const { data } = response
 
       return data
