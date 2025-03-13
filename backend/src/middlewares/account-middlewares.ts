@@ -28,7 +28,7 @@ export const accountMiddlewares = {
       throw new Error("JWT token not informed")
     }
 
-    const [, token] = authHeader.split(" ")
+    const token = request.cookies.token
 
     const { secret } = authConfig.jwt
 
