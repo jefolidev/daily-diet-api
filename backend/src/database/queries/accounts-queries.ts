@@ -31,11 +31,13 @@ export async function selectAccountByEmail(
   return query
 }
 
-// export async function selectAccountByEmail(email: string): Promise<string[]> {
-//   const query = await knexDb('accounts').where({ email }).first()
+export async function selectAccountById(
+  accountId: string,
+): Promise<UserAccount> {
+  const query = await knexDb('accounts').where({ id: accountId }).first()
 
-//   return query
-// }
+  return query
+}
 
 export async function selectRoleFromUser(accountId: string) {
   const query = await knexDb('accounts').where({ id: accountId }).from('role')

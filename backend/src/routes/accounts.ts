@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import { env } from '../../env'
+import { selectAccountById } from '../database/queries/accounts-queries'
 import { accountMiddlewares } from '../middlewares/account-middlewares'
 import { userAccountSchema } from '../schemas/account-schema'
 import { getAllTheAccounts } from '../services/account-services'
@@ -33,6 +34,24 @@ export async function accountsRoutes(app: FastifyInstance) {
       }
     },
   )
+
+  app.get('/me', { preHandler: ensureAuthenticaded }, async (req, res) => {
+    try {
+      if (!req.user?.id) {
+        throw new Error('User id not found')
+      }
+
+      const user = await selectAccountById(req.user?.id)
+
+      return res.send({
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      })
+    } catch (error) {
+      return res.code(500).send({ message: 'Error fetching user data' })
+    }
+  })
 
   app.post('/login', async (req, res) => {
     try {

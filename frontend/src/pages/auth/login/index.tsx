@@ -6,7 +6,7 @@ export function LoginPage() {
   return (
     <div className="mx-auto my-0 flex h-screen max-w-[720px] flex-col justify-center space-y-6 py-8">
       <div className="flex flex-col items-center gap-2">
-        <img src={logo} />
+        <img src={logo} alt="" />
 
         <div className="text-center">
           <h1 className="text-xl font-bold">Bem vindo de volta!</h1>
